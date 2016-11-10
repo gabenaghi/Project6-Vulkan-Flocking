@@ -151,6 +151,7 @@ public:
 
 		std::mt19937 rGenerator;
 		std::uniform_real_distribution<float> rDistribution(-1.0f, 1.0f);
+		float vel_scalar = 0.1f;
 
 		// Initial particle positions
 		std::vector<Particle> particleBuffer(PARTICLE_COUNT);
@@ -158,6 +159,7 @@ public:
 		{
 			particle.pos = glm::vec2(rDistribution(rGenerator), rDistribution(rGenerator));
 			// TODO: add randomized velocities with a slight scale here, something like 0.1f.
+			particle.vel = vel_scalar * glm::vec2(rDistribution(rGenerator), rDistribution(rGenerator));
 		}
 
 		VkDeviceSize storageBufferSize = particleBuffer.size() * sizeof(Particle);
@@ -244,7 +246,7 @@ public:
 			VERTEX_BUFFER_BIND_ID,
 			1,
 			VK_FORMAT_R32G32_SFLOAT,
-			offsetof(Particle, pos)); // TODO: change this so that we can color the particles based on velocity.
+			offsetof(Particle, vel)); //color the particles based on velocity. //TODO was here
 
 		// vertices.inputState encapsulates everything we need for these particular buffers to
 		// interface with the graphics pipeline.
@@ -612,6 +614,7 @@ public:
 		// pass through the graphics pipeline.
 		// Feel free to use std::swap here. You should need it twice.
 		std::swap(compute.descriptorSets[0], compute.descriptorSets[1]);
+		std::swap(compute.storageBufferA, compute.storageBufferBs);
 	}
 
 	// Record command buffers for drawing using the graphics pipeline
