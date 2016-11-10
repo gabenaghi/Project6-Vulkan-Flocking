@@ -547,6 +547,27 @@ public:
 			// on one frame, we use one descriptorSet with the compute pass,
 			// on the next frame, we use the other.
 			// What has to be different about how the second descriptorSet is written here?
+
+			// Binding 0 : Particle position storage buffer
+			vkTools::initializers::writeDescriptorSet(
+			compute.descriptorSets[1], // LOOK: which descriptor set to write to?
+			VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
+			0, // LOOK: which binding in the descriptor set Layout?
+			&compute.storageBufferA.descriptor), // LOOK: which SSBO?
+
+			// Binding 1 : Particle position storage buffer
+			vkTools::initializers::writeDescriptorSet(
+			compute.descriptorSets[1],
+			VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
+			1,
+			&compute.storageBufferB.descriptor),
+
+			// Binding 2 : Uniform buffer
+			vkTools::initializers::writeDescriptorSet(
+			compute.descriptorSets[1],
+			VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+			2,
+			&compute.uniformBuffer.descriptor)
 		};
 
 		vkUpdateDescriptorSets(device, static_cast<uint32_t>(computeWriteDescriptorSets.size()), computeWriteDescriptorSets.data(), 0, NULL);
@@ -590,6 +611,7 @@ public:
 		// We also want to flip what SSBO we draw with in the next
 		// pass through the graphics pipeline.
 		// Feel free to use std::swap here. You should need it twice.
+		std::swap(compute.descriptorSets[0], compute.descriptorSets[1]);
 	}
 
 	// Record command buffers for drawing using the graphics pipeline
