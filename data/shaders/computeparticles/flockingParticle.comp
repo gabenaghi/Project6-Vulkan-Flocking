@@ -73,6 +73,7 @@ void main()
 			centerOfMass = centerOfMass + neighborPos;
 			cnt1 = cnt1 + 1.0f;
 		}
+		
 		// Rule 2: boids try to stay a distance d away from each other
 		if (length(neighborPos - vPos) < ubo.rule2Distance)
 			keepAway = keepAway - (neighborPos - vPos);
@@ -86,16 +87,12 @@ void main()
 	}
 
 	//calculate averaged parameters
-	if (cnt1 != 0.0f) 
-	{
-		centerOfMass = (centerOfMass / cnt1 - vPos) * ubo.rule1Scale;
-	}
-	keepAway = keepAway * ubo.rule2Scale;
+	if (cnt1 > 0.0f) 
+		centerOfMass = centerOfMass / cnt1;
 	
-	if (cnt3 != 0.0f) 
-	{
-		neighborVels = (neighborVels / cnt3 - vVel) * ubo.rule3Scale;
-	}
+	centerOfMass = (centerOfMass - vPos) * ubo.rule1Scale;
+	keepAway = keepAway * ubo.rule2Scale;
+	neighborVels = neighborVels * ubo.rule3Scale;
 	
 	vVel = vVel + centerOfMass + keepAway + neighborVels;
 
@@ -116,40 +113,3 @@ void main()
     // Write back
     particlesB[index].vel.xy = vVel;
 }
-
-    /*	glm::vec3 centerOfMass = glm::vec3(0.0f, 0.0f, 0.0f); //rule 1
-	glm::vec3 keepAway     = glm::vec3(0.0f, 0.0f, 0.0f); //rule 2
-	glm::vec3 neighborVels = glm::vec3(0.0f, 0.0f, 0.0f); //rule 3
-
-	int cnt1 = 0;
-	int cnt3 = 0;
-
-	for (int iBoid = 0; iBoid < N; ++iBoid)
-	{
-		if (iBoid == iSelf) continue;
-
-
-		// Rule 1: boids fly towards their local perceived center of mass, which excludes themselves
-		if (glm::length(pos[iBoid] - pos[iSelf]) < rule1Distance)
-		{
-			centerOfMass = centerOfMass + pos[iBoid];
-			++cnt1;
-		}
-		// Rule 2: boids try to stay a distance d away from each other
-		if (glm::length(pos[iBoid] - pos[iSelf]) < rule2Distance)
-			keepAway = keepAway - (pos[iBoid] - pos[iSelf]);
-
-		// Rule 3: boids try to match the speed of surrounding boids
-		if (glm::length(pos[iBoid] - pos[iSelf]) < rule3Distance)
-		{
-			neighborVels = neighborVels + vel[iBoid];
-			++cnt3;
-		}
-	}
-
-	//calculate averaged parameters
-	if (cnt1) centerOfMass = (centerOfMass / (float) cnt1 - pos[iSelf]) * rule1Scale;
-	keepAway = keepAway * rule2Scale;
-	if (cnt3) neighborVels = (neighborVels / (float) cnt3 - vel[iSelf]) * rule3Scale;
-	
-	return vel[iSelf] + centerOfMass + keepAway + neighborVels;*/
