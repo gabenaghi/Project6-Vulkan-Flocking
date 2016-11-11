@@ -57,8 +57,8 @@ void main()
 	vec2 keepAway     = vec2(0.0f, 0.0f); //rule 2
 	vec2 neighborVels = vec2(0.0f, 0.0f); //rule 3
 
-	int cnt1 = 0;
-	int cnt3 = 0;
+	float cnt1 = 0.0f;
+	float cnt3 = 0.0f;
 
 	for (int neighborIndex = 0; neighborIndex < ubo.particleCount; ++neighborIndex)
 	{
@@ -68,28 +68,35 @@ void main()
 		vec2 neighborVel = particlesA[neighborIndex].vel.xy;
 
 		// Rule 1: boids fly towards their local perceived center of mass, which excludes themselves
-		if (glm::length(neighborPos - vPos) < ubo.rule1Distance)
+		if (length(neighborPos - vPos) < ubo.rule1Distance)
 		{
 			centerOfMass = centerOfMass + neighborPos;
-			++cnt1;
+			cnt1 = cnt1 + 1.0f;
 		}
 		// Rule 2: boids try to stay a distance d away from each other
-		if (glm::length(neighborPos - vPos) < ubo.rule2Distance)
+		if (length(neighborPos - vPos) < ubo.rule2Distance)
 			keepAway = keepAway - (neighborPos - vPos);
 
 		// Rule 3: boids try to match the speed of surrounding boids
-		if (glm::length(neighborPos - vPos) < ubo.rule3Distance)
+		if (length(neighborPos - vPos) < ubo.rule3Distance)
 		{
 			neighborVels = neighborVels + neighborVel;
-			++cnt3;
+			cnt3 = cnt3 + 1.0f;
 		}
 	}
 
 	//calculate averaged parameters
-	if (cnt1) centerOfMass = (centerOfMass / (float) cnt1 - vPos) * ubo.rule1Scale;
+	if (cnt1 != 0.0f) 
+	{
+		centerOfMass = (centerOfMass / cnt1 - vPos) * ubo.rule1Scale;
+	}
 	keepAway = keepAway * ubo.rule2Scale;
-	if (cnt3) neighborVels = (neighborVels / (float) cnt3 - vVel) * ubo.rule3Scale;
-
+	
+	if (cnt3 != 0.0f) 
+	{
+		neighborVels = (neighborVels / cnt3 - vVel) * ubo.rule3Scale;
+	}
+	
 	vVel = vVel + centerOfMass + keepAway + neighborVels;
 
 	// clamp velocity for a more pleasing simulation.

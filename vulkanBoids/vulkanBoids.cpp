@@ -466,7 +466,7 @@ public:
 
 		// Create pipeline on the GPU - load shader, attach the pipeline layout we just made.
 		VkComputePipelineCreateInfo computePipelineCreateInfo = vkTools::initializers::computePipelineCreateInfo(compute.pipelineLayout, 0);
-		computePipelineCreateInfo.stage = loadShader(getAssetPath() + "shaders/computeparticles/particle.comp.spv", VK_SHADER_STAGE_COMPUTE_BIT);
+		computePipelineCreateInfo.stage = loadShader(getAssetPath() + "shaders/computeparticles/flockingParticle.comp.spv", VK_SHADER_STAGE_COMPUTE_BIT);
 		VK_CHECK_RESULT(vkCreateComputePipelines(device, pipelineCache, 1, &computePipelineCreateInfo, nullptr, &compute.pipeline));
 
 		//////// Create command pool and command buffer for compute commands ////////
@@ -542,7 +542,7 @@ public:
 			compute.descriptorSets[0],
 			VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
 			2,
-			&compute.uniformBuffer.descriptor)
+			&compute.uniformBuffer.descriptor),
 
 			// TODO: write the second descriptorSet, using the top for reference.
 			// We want the descriptorSets to be used for flip-flopping:
@@ -555,14 +555,14 @@ public:
 			compute.descriptorSets[1], // LOOK: which descriptor set to write to?
 			VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
 			0, // LOOK: which binding in the descriptor set Layout?
-			&compute.storageBufferA.descriptor), // LOOK: which SSBO?
+			&compute.storageBufferB.descriptor), // LOOK: which SSBO?
 
 			// Binding 1 : Particle position storage buffer
 			vkTools::initializers::writeDescriptorSet(
 			compute.descriptorSets[1],
 			VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
 			1,
-			&compute.storageBufferB.descriptor),
+			&compute.storageBufferA.descriptor),
 
 			// Binding 2 : Uniform buffer
 			vkTools::initializers::writeDescriptorSet(
@@ -614,7 +614,7 @@ public:
 		// pass through the graphics pipeline.
 		// Feel free to use std::swap here. You should need it twice.
 		std::swap(compute.descriptorSets[0], compute.descriptorSets[1]);
-		std::swap(compute.storageBufferA, compute.storageBufferBs);
+		std::swap(compute.storageBufferA, compute.storageBufferB);
 	}
 
 	// Record command buffers for drawing using the graphics pipeline
