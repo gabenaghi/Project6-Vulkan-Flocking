@@ -28,6 +28,8 @@ Another scenario where you might need multiple descriptor sets with a single lay
 
 ####What is one advantage of using compute commands that can share data with a rendering pipeline?
 
+One huge advantage of compute commands sharing data with rendering pipelines is locality. Assuming the compiler and/or scheduler is intelligent enough, data should nearly always be local to any program which is executing on it, accelerating memory access and mitigating bandwidth bottlenecking. 
+
 ### Credits
 
 * [Vulkan examples and demos](https://github.com/SaschaWillems/Vulkan) by [@SaschaWillems](https://github.com/SaschaWillems)
