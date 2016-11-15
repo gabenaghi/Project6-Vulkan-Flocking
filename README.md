@@ -22,6 +22,8 @@ CommandBuffers often live in pre-allocated GPU memory, which are allocated as co
 
 ####Describe a situation besides flip-flop buffers in which you may need multiple descriptor sets to fit one descriptor layout.
 
+Another scenario where you might need multiple descriptor sets with a single layout is if you have several data pools. For example, one might have several data pools from which he or she might want to draw data and, depending on the execution state, draw from any one of them. In this case, it is possible for them to define several descriptor sets and select whichever points to the data they deem necessary. 
+
 ####What are some problems to keep in mind when using multiple Vulkan queues?
 
 ####What is one advantage of using compute commands that can share data with a rendering pipeline?

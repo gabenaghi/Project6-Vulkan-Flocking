@@ -516,9 +516,8 @@ public:
 
 		std::vector<VkWriteDescriptorSet> computeWriteDescriptorSets =
 		{
-			// LOOK
 			// WriteDescriptorSet writes each of these descriptors into the specified descriptorSet.
-			// THese first few are written into compute.descriptorSet[0].
+			// These first few are written into compute.descriptorSet[0].
 			// Each of these corresponds to a layout binding in the descriptor set layout,
 			// which in turn corresponds with something like `layout(std140, binding = 0)` in `particle.comp`.
 
@@ -546,14 +545,13 @@ public:
 			// We want the descriptorSets to be used for flip-flopping:
 			// on one frame, we use one descriptorSet with the compute pass,
 			// on the next frame, we use the other.
-			// What has to be different about how the second descriptorSet is written here?
 
 			// Binding 0 : Particle position storage buffer
 			vkTools::initializers::writeDescriptorSet(
-			compute.descriptorSets[1], // LOOK: which descriptor set to write to?
+			compute.descriptorSets[1], // which descriptor set to write to?
 			VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
-			0, // LOOK: which binding in the descriptor set Layout?
-			&compute.storageBufferB.descriptor), // LOOK: which SSBO?
+			0, // which binding in the descriptor set Layout?
+			&compute.storageBufferB.descriptor), // which SSBO?
 
 			// Binding 1 : Particle position storage buffer
 			vkTools::initializers::writeDescriptorSet(
