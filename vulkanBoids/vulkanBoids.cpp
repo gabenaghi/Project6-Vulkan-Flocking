@@ -158,7 +158,6 @@ public:
 		for (auto& particle : particleBuffer)
 		{
 			particle.pos = glm::vec2(rDistribution(rGenerator), rDistribution(rGenerator));
-			// TODO: add randomized velocities with a slight scale here, something like 0.1f.
 			particle.vel = vel_scalar * glm::vec2(rDistribution(rGenerator), rDistribution(rGenerator));
 		}
 
@@ -246,7 +245,7 @@ public:
 			VERTEX_BUFFER_BIND_ID,
 			1,
 			VK_FORMAT_R32G32_SFLOAT,
-			offsetof(Particle, vel)); //color the particles based on velocity. //TODO was here
+			offsetof(Particle, vel)); //color the particles based on velocity.
 
 		// vertices.inputState encapsulates everything we need for these particular buffers to
 		// interface with the graphics pipeline.
@@ -544,7 +543,6 @@ public:
 			2,
 			&compute.uniformBuffer.descriptor),
 
-			// TODO: write the second descriptorSet, using the top for reference.
 			// We want the descriptorSets to be used for flip-flopping:
 			// on one frame, we use one descriptorSet with the compute pass,
 			// on the next frame, we use the other.
@@ -606,7 +604,7 @@ public:
 		// are done executing.
 		VK_CHECK_RESULT(vkQueueSubmit(compute.queue, 1, &computeSubmitInfo, compute.fence));
 
-		// TODO: handle flip-flop logic. We want the next iteration to
+		// Handle flip-flop logic. We want the next iteration to
 		// run the compute pipeline with flipped SSBOs, so we have to
 		// swap the descriptorSets, which each allow access to the SSBOs
 		// in one configuration.
