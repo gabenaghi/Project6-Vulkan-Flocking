@@ -3,13 +3,15 @@ Vulkan Flocking: compute and shading in one pipeline!
 
 **University of Pennsylvania, CIS 565: GPU Programming and Architecture, Project 6**
 
-* (TODO) YOUR NAME HERE
-  Windows 22, i7-2222 @ 2.22GHz 22GB, GTX 222 222MB (Moore 2222 Lab)
+* Gabriel Naghi
+* Windows 7, i7-2222 @ 2.22GHz 22GB, GTX 1070 222MB (SIG Lab)
 
-  ### (TODO: Your README)
+##Vulkan Boids
+Vulkan in Khronos Group's new explicit API powering the latest generation of games. One of the interesting new features of the Vulkan API is that it provides an interface to do compute work as well as graphics. Siultaneous graphics and compute workloads is becoming increasingly important; it is believed that this is one of the main advantages held by AMD Radeon GPUs over the latest generation NVIDIA GPUs (Pascal). 
 
-  Include screenshots, analysis, etc. (Remember, this is public, so don't put
-  anything here that you don't want to share with the world.)
+In this project, I run display the power of side-by-side graphics and compute with a very simple Boid flocking re-implementation. This is the same algorithm as that implemented in [Project 1](https://github.com/gabenaghi/Project1-CUDA-Flocking), except in 2D. 
+
+##Food for Thought
 
 ### Credits
 
