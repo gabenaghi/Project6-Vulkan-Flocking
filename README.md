@@ -4,7 +4,7 @@ Vulkan Flocking: compute and shading in one pipeline!
 **University of Pennsylvania, CIS 565: GPU Programming and Architecture, Project 6**
 
 * Gabriel Naghi
-* Windows 7, i7-2222 @ 2.22GHz 22GB, GTX 1070 222MB (SIG Lab)
+* Windows 7, Xeon E5-1630 @ 3.70GHz 32GB, GeForce GTX 1070 4095MB (SIG Lab MOR103-56)
 
 ![](img/boids.gif)
 
